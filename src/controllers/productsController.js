@@ -44,7 +44,9 @@ const controller = {
 			description : description.trim(),
 			image: null
 		}
+
 		products.push(product)
+
 		fs.writeFileSync(path.join(__dirname, '../data/productsDataBase.json'),JSON.stringify(products,null,3));
 		return res.redirect('/products') 
 	},
@@ -60,7 +62,6 @@ const controller = {
 	update: (req, res) => {
 		const {name,price,description, discount, category}= req.body;
 		const productsModify = products.map(product => {
-			
 			
 			if(product.id === +req.params.id){
 				product.name = name.trim()
@@ -78,7 +79,9 @@ const controller = {
 
 	// Delete - Delete one product from DB
 	destroy : (req, res) => {
+	/* filtra de manera que el producto que captura por params lo deja fuera de los productos filtrados */	
 	const productsModify = products.filter(product => product.id !== +req.params.id);
+	/* luego reescribe el json sin el producto que capturo por params */
 	fs.writeFileSync(path.join(__dirname, '../data/productsDataBase.json'),JSON.stringify(productsModify,null,3));
 	return res.redirect('/products')
 	}
