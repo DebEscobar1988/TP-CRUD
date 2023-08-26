@@ -1,6 +1,4 @@
 const {subirImg}= require('../middlewares/upload')
-
-
 // ************ Require's ************
 const express = require('express');
 const router = express.Router();
@@ -13,8 +11,7 @@ router.get('/', productsController.index);
 
 /*** CREATE ONE PRODUCT ***/ 
 router.get('/create', productsController.create); 
-router.post('/create',subirImg.single(''),productsController.store); 
-
+router.post('/create', subirImg.fields([{ name: 'image', maxCount: 1 }, { name: 'images', maxCount: 8 }]), productsController.store); 
 
 /*** GET ONE PRODUCT ***/ 
 router.get('/detail/:id', productsController.detail); 
@@ -23,9 +20,7 @@ router.get('/detail/:id', productsController.detail);
 router.get('/edit/:id/', productsController.edit); 
 router.put('/update/:id', productsController.update); 
 
-
 /*** DELETE ONE PRODUCT***/ 
-
 router.delete('/delete/:id', productsController.destroy); 
 
 

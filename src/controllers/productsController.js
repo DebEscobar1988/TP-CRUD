@@ -1,91 +1,23 @@
-const fs = require('fs');
-const path = require('path');
-
-const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
-const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
-
-const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
 const controller = {
 	// Root - Show all products
-	index: (req, res) => {
-		const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
-		const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
-		return res.render('products',{
-			products,
-			toThousand
-		})
-	},
+	index:require('./products/index'),
 
 	// Detail - Detail from one product
-	detail: (req, res) => {
-		const id= req.params.id;
-		const product = products.find(product => product.id === +id)
-		return res.render('detail',{
-			...product,
-			toThousand
-		})
-	},
+	detail: require('./products/detail'),
 
 	// Create - Form to create
-	create: (req, res) => {
-		return res.render('product-create-form')
-	},
+	create: require('./products/create'),
 	
 	// Create -  Method to store
-	store: (req, res) => {
-		const {name,price,description, discount, category}= req.body;
-        const product= {
-			id: products[products.length -1].id + 1,
-			name: name.trim(),
-			price :+price,
-			discount: +discount,
-			category,
-			description : description.trim(),
-			image: null
-		}
-
-		products.push(product)
-
-		fs.writeFileSync(path.join(__dirname, '../data/productsDataBase.json'),JSON.stringify(products,null,3));
-		return res.redirect('/products') 
-	},
+	store: require('./products/store'),
 
 	// Update - Form to edit
-	edit: (req, res) => {
-		const product = products.find(product => product.id === +req.params.id)
-		return res.render('product-edit-form',{
-			...product})
-		
-	},
+	edit: require('./products/edit'),
 	// Update - Method to update
-	update: (req, res) => {
-		const {name,price,description, discount, category}= req.body;
-		const productsModify = products.map(product => {
-			
-			if(product.id === +req.params.id){
-				product.name = name.trim()
-				product.price =price
-				product.discount= +discount
-				product.category
-				product.description = description.trim()
-			}
-			return product
-			
-		})
-		fs.writeFileSync(path.join(__dirname, '../data/productsDataBase.json'),JSON.stringify(productsModify,null,3));
-		return res.redirect('/products')
-	},
+
+	update: require('./products/update'),
 
 	// Delete - Delete one product from DB
-	destroy : (req, res) => {
-	/* filtra de manera que el producto que captura por params lo deja fuera de los productos filtrados */	
-	const productsModify = products.filter(product => product.id !== +req.params.id);
-	/* luego reescribe el json sin el producto que capturo por params */
-	fs.writeFileSync(path.join(__dirname, '../data/productsDataBase.json'),JSON.stringify(productsModify,null,3));
-	return res.redirect('/products')
-	}
-
-};
+	destroy : require('./products/destroy')}
 
 module.exports = controller;
