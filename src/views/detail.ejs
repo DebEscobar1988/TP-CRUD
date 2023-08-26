@@ -17,7 +17,12 @@
 		<div class="product-detail">
 			<div class="row">
 				<div class="col-12 col-lg-8">
-					<img src="/images/products/<%=image || 'default-image.png'%>" alt="product image" class="product-detail-img">
+					<img src="/images/products/<%=image || 'default-image.png'%>" style="width: 90% "  alt="product image" class="product-detail-img">
+					<% images.forEach(imagen=> { %>
+					 <div><img src="/images/products/<%=imagen || 'default-image.png'%>" style="width: 350px" alt="..."></div>	
+					<% }) %>
+
+		
 					<p class="product-detail-description">
 						<%= description %>
 					</p>

@@ -13,7 +13,9 @@ module.exports=(req,res)=>{
         discount: +discount,
         category,
         description : description.trim(),
-        image: req.file ? req.file.filename : null
+        image: req.files.image ? req.files.image[0].filename : null,
+        images: req.files.images ? req.files.images.map((image)=> image.filename) : [],
+     
     }  
         res.send(product)
 /* products.push agrega el nuevo producto al final del array que ya teniamos */
