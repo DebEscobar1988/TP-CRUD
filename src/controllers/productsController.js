@@ -85,6 +85,7 @@ const controller = {
 	fs.writeFileSync(path.join(__dirname, '../data/productsDataBase.json'),JSON.stringify(productsModify,null,3));
 	return res.redirect('/products')
 	}
+
 };
 
 module.exports = controller;
