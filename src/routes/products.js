@@ -1,3 +1,6 @@
+const {subirImg}= require('../middlewares/upload')
+
+
 // ************ Require's ************
 const express = require('express');
 const router = express.Router();
@@ -10,7 +13,7 @@ router.get('/', productsController.index);
 
 /*** CREATE ONE PRODUCT ***/ 
 router.get('/create', productsController.create); 
-router.post('/create', productsController.store); 
+router.post('/create',subirImg.single(''),productsController.store); 
 
 
 /*** GET ONE PRODUCT ***/ 
